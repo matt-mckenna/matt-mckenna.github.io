@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Hello!  I am a Machine Learning Engineer currently working at Spotify.  I primarily build cloud-based NLP applications but I'm also interested in recommendation systems, time-series data, and all things programming/engineering. Email me with questions or if you're interested in consulting opportunities.
+Hello!  I am a Machine Learning Engineer currently working at Spotify.  I primarily build cloud-based NLP applications but I'm also interested in recommendation systems, time-series data, and all things programming/engineering. 
 
 ## Current/Past Positions  (see LinkedIn for longer history)
 
