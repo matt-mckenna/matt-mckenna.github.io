@@ -65,7 +65,7 @@ Output:
 
 Output graph:
 
-![image tooltip here](../images/chg_plot.jpg)
+![image tooltip here](/images/chg_plot.jpg)
 
 From looking at the graph and output, we can see the model estimated a change-point around time-point 17, which translates to 1996 in our data. The mean number of gun-related deaths before the change-point is estimated to be 46.2, and 42.2 afterwards.
 
