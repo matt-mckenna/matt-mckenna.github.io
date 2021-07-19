@@ -14,7 +14,7 @@ How does it all work?   Like most statistical models, the likelihood explains a
 \\[ \displaystyle L(Y)= \prod_{i=1}^{\tau}f_{0} (y) \prod_{i=\tau + 1}^{n} f_{1} (y) \\]
 
 
-The likelihood is made up of two products multiplied together: The first product quantifies the likelihood from the first point in our data, up to the change-point \\( \tau \\). The second product quantifies the likelihood from the change-point $ \tau $ to the end of our data. In this setup, the function $latex f_{0}&s=1$ describes the data before the change-point, and the function $latex f_{1}&s=1$ describes the data after the change-point. Once we have some data, we can use estimation methods to find the maximum likelihood estimators for $latex \tau&s=1$, $latex \mu&s=1$, and $latex \sigma&s=1$.
+The likelihood is made up of two products multiplied together: The first product quantifies the likelihood from the first point in our data, up to the change-point \\( \tau \\). The second product quantifies the likelihood from the change-point $ \tau $ to the end of our data. In this setup, the function $ f_{0} $ describes the data before the change-point, and the function $ f_{1} $ describes the data after the change-point. Once we have some data, we can use estimation methods to find the maximum likelihood estimators for $ \tau $, $ \mu $, and $ \sigma $.
 
 
 
