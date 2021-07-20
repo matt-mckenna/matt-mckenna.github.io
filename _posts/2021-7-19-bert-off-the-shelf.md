@@ -31,3 +31,8 @@ def get_top_k_predictions(input_string, k, tokenizer=tokenizer, model=model) -> 
 
 
 get_top_k_predictions("The [MASK] are the NBA team from Boston.", 5) 
+
+
+{% highlight python %}
+x = ('a', 1, False)
+{% endhighlight %}
