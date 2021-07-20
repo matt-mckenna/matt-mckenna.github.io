@@ -25,9 +25,9 @@ def get_top_k_predictions(input_string, k, tokenizer=tokenizer, model=model) -> 
 
     decoded_output_words = decoded_output[mask_index]
 
-    return decoded_output_words```
+    return decoded_output_words
+
+```
 
 
-
-
-    get_top_k_predictions("The [MASK] are the NBA team from Boston.", 5) 
+get_top_k_predictions("The [MASK] are the NBA team from Boston.", 5) 
