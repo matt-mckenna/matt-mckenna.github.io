@@ -4,14 +4,14 @@ title: Using pre-trained BERT to predict words in a sentence
 ---
 
 BERT is a language model that has shown state of the art results on many natural language tasks ([see here for a more in-depth explanation](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270)). 
-BERT works by masking certain words in text, then trying to 'recover' the masked words. 
+BERT works by masking certain words in text, then trying to 'recover' those masked words. 
 For example, in the sentence "The cat ate the mouse", BERT might mask the word 'mouse', 
-then try to predict that words in the sentence "The cat ate the [MASK]". 
+then try to predict that word in the sentence "The cat ate the [MASK]". 
 We'll go more in-depth on what BERT is and how it works in later posts - in this post
 we'll play around with BERT and see how we can use it to predict words in a sentence. 
 To do this, we'll follow these steps:
 
-1. Load the transfomer library from Huggingface
+1. Load the transformer library from Huggingface
 2. Tokenize our input sentence (convert words to integers) 
 3. Run the tokenized sentence through the model 
 4. Find the top 'k' words predicted for our target word 
