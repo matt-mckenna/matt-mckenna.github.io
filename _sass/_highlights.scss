@@ -1,18 +1,16 @@
 
-.highlight {
-  background-color: #efefef;
-  padding: 7px 7px 7px 10px;
-  border: 1px solid #ddd;
-  -moz-box-shadow: 3px 3px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 3px 3px rgba(0,0,0,0.1);
-  box-shadow: 3px 3px rgba(0,0,0,0.1);
-  margin: 20px 0 20px 0;
-  overflow: scroll;
+/* Adjusted to give override background and text colour */
+.highlight pre, pre, .highlight .hll {
+  background-color: #49483E;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 3px;
+  color: #FFFFFF;
+}
+.gist pre {
+  color: #515151;
 }
 
-code {
-  font-family:'Bitstream Vera Sans Mono','Courier', monospace;
-}
 
 .highlight .c { color: #586E75 } /* Comment */
 .highlight .err { color: #93A1A1 } /* Error */
