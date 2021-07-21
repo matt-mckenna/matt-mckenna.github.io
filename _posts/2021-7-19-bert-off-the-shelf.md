@@ -3,7 +3,23 @@ layout: post
 title: Using pre-trained BERT to predict words in a sentence
 ---
 
-BERT is a language model that has shown state of the art results on many natural language tasks ([see here for a more in-depth explanation](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270)). BERT works by masking words in text, then trying to 'recover' the masked words. We'll go more in-depth on what BERT is and how it works in later posts. In this post, we'll play around with BERT and see how we can use it to predict words in a sentence. To do this, we'll use the transfomer library from Huggingface. 
+BERT is a language model that has shown state of the art results on many natural language tasks ([see here for a more in-depth explanation](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270)). 
+BERT works by masking certain words in text, then trying to 'recover' the masked words. 
+For example, in the sentence "The cat ate the mouse", BERT might mask the word 'mouse', 
+then try to predict that words in the sentence "The cat ate the [MASK]". 
+We'll go more in-depth on what BERT is and how it works in later posts - in this post
+we'll play around with BERT and see how we can use it to predict words in a sentence. 
+To do this, we'll follow these steps:
+
+1. Load the transfomer library from Huggingface
+2. Tokenize our input sentence (convert words to integers) 
+3. Run the tokenized sentence through the model 
+4. Find the top 'k' words predicted for our target word 
+5. Decode the tokens back into words (convert integers to words) 
+     
+
+This is suprisingly simple with the Huggingface (transfomers) library: 
+
     
 ```python 
 import numpy as np
@@ -13,7 +29,7 @@ import tensorflow as tf
 tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
 model = TFBertForMaskedLM.from_pretrained('bert-base-cased')
 
-def get_top_k_predictions(input_string, k, tokenizer=tokenizer, model=model) -> str:
+def get_top_k_predictions(input_string, k=5, tokenizer=tokenizer, model=model) -> str:
 
     tokenized_inputs = tokenizer(input_string, return_tensors="tf")
     outputs = model(tokenized_inputs["input_ids"])
@@ -29,10 +45,21 @@ def get_top_k_predictions(input_string, k, tokenizer=tokenizer, model=model) -> 
 
 ```
 
+We can use our function to predict the masked word in any sentence.  We 
+send Here are a few examples:
 
-get_top_k_predictions("The [MASK] are the NBA team from Boston.", 5) 
 
+    get_top_k_predictions("The dog ate the [MASK]. ")
+    output:  'food meat dog bread meal'
+    
+    get_top_k_predictions("The capital of France is [MASK]. ")
+    output:  'Paris Lyon Toulouse Lille Marseille'
 
-{% highlight python %}
-x = ('a', 1, False)
-{% endhighlight %}
+    get_top_k_predictions("The boy played with the [MASK] at the pool. ")
+    output: 'girl dog boy girls woman'
+    
+    get_top_k_predictions("The Boston [MASK] won the championship. ")
+    output: 'girl boy fish girls woman'
+    
+As you can see, BERT does pretty well predicting what the [MASK]'ed word should be!
+    
