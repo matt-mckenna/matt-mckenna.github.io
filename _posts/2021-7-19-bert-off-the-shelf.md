@@ -57,10 +57,10 @@ Here are a few examples:
     output:  'Paris Lyon Toulouse Lille Marseille'
 
     get_top_k_predictions("The boy played with the [MASK] at the pool. ")
-    output: 'girl dog boy girls woman'
+    output: 'girl boy fish girls woman'
     
     get_top_k_predictions("The Boston [MASK] won the championship. ")
-    output: 'girl boy fish girls woman'
+    output: 'Celtics Bruins Braves Patriots Americans'
     
 As you can see, BERT does pretty well predicting what the [MASK]'ed word should be!
     
