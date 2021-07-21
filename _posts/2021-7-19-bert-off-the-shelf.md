@@ -46,7 +46,8 @@ def get_top_k_predictions(input_string, k=5, tokenizer=tokenizer, model=model) -
 ```
 
 We can use our function to predict the masked word in any sentence.  We 
-send in a sentence with a '[MASK]' placeholder for the word that we want BERT to predict. 
+send in a sentence with a '[MASK]' placeholder for the word that we want BERT to predict, 
+and the function will output the top 5 most likely words (from most likely to least likely). 
 Here are a few examples:
 
     get_top_k_predictions("The dog ate the [MASK]. ")
