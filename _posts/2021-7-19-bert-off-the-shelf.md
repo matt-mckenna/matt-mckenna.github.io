@@ -18,8 +18,8 @@ To do this, we'll follow these steps:
 5. Decode the tokens back into words (convert integers to words) 
      
 
-This is suprisingly simple with the Huggingface (transfomers) library: 
-
+This is surprisingly simple with the Huggingface (transformers) library.  
+We'll use that library to write a function that performs the steps above. 
     
 ```python 
 import numpy as np
@@ -46,8 +46,8 @@ def get_top_k_predictions(input_string, k=5, tokenizer=tokenizer, model=model) -
 ```
 
 We can use our function to predict the masked word in any sentence.  We 
-send Here are a few examples:
-
+send in a sentence with a '[MASK]' placeholder for the word that we want BERT to predict. 
+Here are a few examples:
 
     get_top_k_predictions("The dog ate the [MASK]. ")
     output:  'food meat dog bread meal'
