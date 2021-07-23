@@ -50,6 +50,8 @@ send in a sentence with a '[MASK]' placeholder for the word that we want BERT to
 and the function will output the top 5 most likely words (from most likely to least likely). 
 Here are a few examples:
 
+```python 
+
     get_top_k_predictions("The dog ate the [MASK]. ")
     output:  'food meat dog bread meal'
     
@@ -61,6 +63,7 @@ Here are a few examples:
     
     get_top_k_predictions("The Boston [MASK] won the championship. ")
     output: 'Celtics Bruins Braves Patriots Americans'
-    
+```
+
 As you can see, BERT does pretty well predicting what the [MASK]'ed word should be!
     
