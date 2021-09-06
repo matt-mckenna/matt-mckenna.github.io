@@ -85,3 +85,5 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+issues_repo: matt-mckenna/public_comments
