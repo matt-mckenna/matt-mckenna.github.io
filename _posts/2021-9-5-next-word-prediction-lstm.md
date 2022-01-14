@@ -25,15 +25,13 @@ For this example, we'll train on the wikipedia article about basketball. To do t
 We also input a phrase that we want the model to predict the next word for: "The NBA is a "
 
 ```python 
-python modelpy.py --train_model --epochs 200 --wiki Basketball --predict "The NBA is a basketball"
+python modelpy.py --train_model --epochs 200 --wiki Basketball 
+--predict "The NBA is a basketball"
 ```
 
-And our model will predict the next word.  After training, we see the most likely next words are 'batter', 'ball', 'game'.  
-The 'game' and 'ball' predictions make sense in the context of basketball. "Batter" is a strange choice and doesn't make sense. 
-We can't be too hard on our model because it's trained on very little data and not trained for very long.  
+And our model will predict the next word.  After training, we see the most likely next words are 'batter', 'ball', 'game'. The 'game' and 'ball' predictions make sense in the context of basketball. "Batter" is a strange choice and doesn't make sense. We can't be too hard on our model because it's trained on very little data and not trained for very long.  
 
-Now lets compare to using BERT off the shelf (which doesn't require any training, as opposed to our LSTM model): 
-For the same sentence of "The NBA is a basketball ___", BERT says the most likely words are: 'league', 'organization', 'competition'.
+Now lets compare to using BERT off the shelf (which doesn't require any training, as opposed to our LSTM model): For the same sentence of "The NBA is a basketball ___", BERT says the most likely words are: 'league', 'organization', 'competition'.
 These make a lot more sense in context. 
 
 
