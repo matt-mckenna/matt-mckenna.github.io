@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Hello!  I am a Machine Learning Engineer currently working at Spotify.  I primarily build cloud-based NLP applications but I'm also interested in all types of ML, like recommendation systems, time-series data, classification/regression, etc. And all things programming/engineering! 
+Hello!  I am a Machine Learning Engineer currently working at Spotify.  I primarily build cloud-based NLP applications but I'm also interested in all types of ML, especially recommendation systems and time-series data prediction. And all things programming/engineering! 
 
 Contact me by email: [info@mattmckenna.io](info@mattmckenna.io)
 
