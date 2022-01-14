@@ -6,7 +6,7 @@ title: Training a next-word prediction model from scratch
 In the last post we played around with BERT and saw that it predicted words pretty well. 
 To show how much BERT improves word prediction over previous state-of-the-art models, we will train our own 
 word prediction model using a lesser model.  The model we'll use is an LSTM - we're not going to delve into what 
-these model are or how they work in the post (you can read about them [here](https://en.wikipedia.org/wiki/Long_short-term_memory))
+these model are or how they work in the post (you can read more about them [here](https://en.wikipedia.org/wiki/Long_short-term_memory)).
 
 The [full code](https://github.com/matt-mckenna/next_word_prediction) is much longer, but here the snippet that contains our model definition: 
 
@@ -27,6 +27,12 @@ We also input a phrase that we want the model to predict the next word for: "The
 ```python 
 python modelpy.py --train_model --epochs 200 --wiki Basketball 
 --predict "The NBA is a basketball"
+```
+
+```python 
+output:  
+predicged words: (from most likely to least likely)
+['batter', 'game', 'ball']
 ```
 
 And our model will predict the next word.  After training, we see the most likely next words are 'batter', 'ball', 'game'. The 'game' and 'ball' predictions make sense in the context of basketball. "Batter" is a strange choice and doesn't make sense. We can't be too hard on our model because it's trained on very little data and not trained for very long.  
