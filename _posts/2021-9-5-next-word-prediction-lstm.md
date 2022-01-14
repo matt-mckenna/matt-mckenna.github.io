@@ -8,7 +8,7 @@ To show how much BERT improves word prediction over previous state-of-the-art mo
 word prediction model using a lesser model.  The model we'll use is an LSTM - we're not going to delve into what 
 these model are or how they work in the post (you can read about them [here](https://en.wikipedia.org/wiki/Long_short-term_memory))
 
-The full code is much longer, but here the snippet that contains our model definition: 
+The [full code](https://github.com/matt-mckenna/next_word_prediction) is much longer, but here the snippet that contains our model definition: 
 
 ```python 
     def build_model(self):
