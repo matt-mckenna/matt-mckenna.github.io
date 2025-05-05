@@ -3,7 +3,10 @@ layout: post
 title: Change-Point Models! (with an application in R)
 ---
 
-Change-point models are a useful statistical tool for detecting change-points in time series data. Change-point models attempt to answer the question, "are there points in time when my data changes"?  The model will not only estimate the how the process changed (for example, went from a mean of 3 to a mean of 5), but also when these changes occurred. This is what makes these models so interesting- they quantify how and when a generative process changes over time.
+**Note (May 2025):** This post is from 2020 and focuses on applied statistics in R. My recent work centers on large language models and neural architectures, but I’m keeping this post up as a snapshot of earlier work in my ML journey.
+
+
+Change-point models are a useful statistical tool for detecting change-points in time series data. Change-point models attempt to answer the question, "are there points in time when my data changes?" The model will not only estimate the how the process changed (for example, went from a mean of 3 to a mean of 5), but also when these changes occurred. This is what makes these models so interesting- they quantify how and when a generative process changes over time.
 
 
 

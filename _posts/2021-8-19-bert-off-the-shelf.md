@@ -1,69 +1,68 @@
 ---
 layout: post
-title: Using pre-trained BERT to predict words in a sentence
+title: Predicting Masked Words with BERT (Refreshed for 2025)
 ---
 
-BERT is a language model that has shown state of the art results on many natural language tasks ([see here for a more in-depth explanation](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270)). 
-BERT works by masking certain words in text, then trying to 'recover' those masked words. 
-For example, in the sentence "The cat ate the mouse", BERT might mask the word 'mouse', 
-then try to predict that word in the sentence "The cat ate the [MASK]". 
-We'll go more in-depth on what BERT is and how it works in later posts - in this post
-we'll play around with BERT and see how we can use it to predict words in a sentence. 
-To do this, we'll follow these steps:
+> **Note (May 2025):** This post is an updated version of my original 2020 walkthrough of using BERT for masked word prediction. I’ve refreshed the code to use the latest version of Hugging Face Transformers with PyTorch instead of TensorFlow, and clarified the explanation and examples.
 
-1. Load the transformer library from Huggingface
-2. Tokenize our input sentence (convert words to integers) 
-3. Run the tokenized sentence through the model 
-4. Find the top 'k' words predicted for our target word 
-5. Decode the tokens back into words (convert integers to words) 
-     
+BERT is a foundational language model that changed the way we approach many NLP tasks. One of its core training objectives is *masked language modeling*—predicting missing words in a sentence.
 
-This is surprisingly simple with the Huggingface (transformers) library.  
-We'll use that library to write a function that performs the steps above. 
-    
-```python 
-import numpy as np
-from transformers import BertTokenizer, TFBertForMaskedLM
-import tensorflow as tf
+For example, given:
+> “The cat ate the [MASK].”
 
-tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
-model = TFBertForMaskedLM.from_pretrained('bert-base-cased')
+BERT tries to recover the missing word, e.g., “mouse” or “food.”
 
-def get_top_k_predictions(input_string, k=5, tokenizer=tokenizer, model=model) -> str:
+Let’s walk through how to use `bert-base-cased` from Hugging Face to get BERT’s top predictions for a masked word.
 
-    tokenized_inputs = tokenizer(input_string, return_tensors="tf")
-    outputs = model(tokenized_inputs["input_ids"])
+---
 
-    top_k_indices = tf.math.top_k(outputs.logits, k).indices[0].numpy()
-    decoded_output = tokenizer.batch_decode(top_k_indices)
-    mask_token = tokenizer.encode(tokenizer.mask_token)[1:-1]
-    mask_index = np.where(tokenized_inputs['input_ids'].numpy()[0]==mask_token)[0][0]
+### 🔧 Steps
 
-    decoded_output_words = decoded_output[mask_index]
+1. Load the model and tokenizer  
+2. Add a `[MASK]` token to your sentence  
+3. Run inference  
+4. Decode the top-k predicted tokens
 
-    return decoded_output_words
+---
+
+### 🧪 Code
+
+```python
+from transformers import BertTokenizer, BertForMaskedLM
+import torch
+
+# Load tokenizer and model
+tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
+model = BertForMaskedLM.from_pretrained("bert-base-cased")
+model.eval()  # Set to eval mode
+
+def get_top_k_predictions(text, k=5):
+    # Tokenize input with masking
+    inputs = tokenizer(text, return_tensors="pt")
+    mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+
+    # Run inference
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    logits = outputs.logits
+    mask_token_logits = logits[0, mask_token_index, :]
+
+    # Get top k tokens
+    top_k_tokens = torch.topk(mask_token_logits, k, dim=1).indices[0].tolist()
+    return tokenizer.convert_ids_to_tokens(top_k_tokens)
 
 ```
 
-We can use our function to predict the masked word in any sentence.  We 
-send in a sentence with a '[MASK]' placeholder for the word that we want BERT to predict, 
-and the function will output the top 5 most likely words (from most likely to least likely). 
-Here are a few examples:
+Some examples:
 
-```python 
+```python
+get_top_k_predictions("The dog ate the [MASK].")
+# → ['food', 'meat', 'dog', 'bread', 'meal']
 
-    get_top_k_predictions("The dog ate the [MASK]. ")
-    output:  'food meat dog bread meal'
-    
-    get_top_k_predictions("The capital of France is [MASK]. ")
-    output:  'Paris Lyon Toulouse Lille Marseille'
+get_top_k_predictions("The capital of France is [MASK].")
+# → ['Paris', 'Lyon', 'Toulouse', 'Marseille', 'Nice']
 
-    get_top_k_predictions("The boy played with the [MASK] at the pool. ")
-    output: 'girl boy fish girls woman'
-    
-    get_top_k_predictions("The Boston [MASK] won the championship. ")
-    output: 'Celtics Bruins Braves Patriots Americans'
+get_top_k_predictions("The Boston [MASK] won the championship.")
+# → ['Celtics', 'Bruins', 'Red', 'Patriots', 'Sox']
 ```
-
-As you can see, BERT does pretty well predicting what the [MASK]'ed word should be!
-    
