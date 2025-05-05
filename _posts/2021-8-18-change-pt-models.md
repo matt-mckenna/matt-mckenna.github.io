@@ -34,37 +34,36 @@ source: CDC WONDER Database
 
 It looks like the number of gun-related deaths might have gone down after 1998, but it's hard to tell. Let's run our data through the change-point model. We can use the handy changepoint package in R:
 
-    # run change point model 
-    library(changepoint)
-    dat <-read.csv ( "gun_deaths.csv"; , stringsAsFactors = F)
-    dat$newrate <- dat$Deaths/dat$Population*1000000
-    mean.val <- cpt.mean (dat$newrate, method="AMOC"  )  
-    plot(mean.val ,  xaxt='n', xlab='Year', ylab='MA Gun Deaths per 1M People')
+```r
+# run change point model 
+library(changepoint)
+dat <- read.csv("gun_deaths.csv", stringsAsFactors = FALSE)
+dat$newrate <- dat$Deaths / dat$Population * 1000000
+mean.val <- cpt.mean(dat$newrate, method = "AMOC")
+plot(mean.val, xaxt = 'n', xlab = 'Year', ylab = 'MA Gun Deaths per 1M People')
 
-    #print the change point and mean value estimates
-    cpts(mean.val)
-    summary(mean.val)
-    mean.val@param.est
+# print the change point and mean value estimates
+cpts(mean.val)
+summary(mean.val)
+mean.val@param.est
+```
 
+```text
+summary(mean.val)
 
-Output:
+Created Using changepoint version 2.2.2 
+Changepoint type      : Change in mean 
+Method of analysis    : AMOC 
+Test Statistic        : Normal 
+Type of penalty       : MBIC with value, 10.83275 
+Minimum Segment Length: 1 
+Maximum no. of cpts   : 1 
+Changepoint Locations : 17 
 
-    summary(mean.val)
-    
-    Created Using changepoint version 2.2.2 
-    Changepoint type      : Change in mean 
-    Method of analysis    : AMOC 
-    Test Statistic  : Normal 
-    Type of penalty       : MBIC with value, 10.83275 
-    Minimum Segment Length : 1 
-    Maximum no. of cpts   : 1 
-    Changepoint Locations : 17 
-    
-    mean.val@param.est
-    $mean
-    [1] 46.17315 41.78381
-
-
+mean.val@param.est
+$mean
+[1] 46.17315 41.78381
+```
 
 Output graph:
 
