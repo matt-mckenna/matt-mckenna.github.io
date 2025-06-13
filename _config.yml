@@ -91,4 +91,4 @@ issues_repo: matt-mckenna/public_comments
 collections:
   archive:
     output: true
-    permalink: /:collection/:name/
+    permalink: /archive/:name/
