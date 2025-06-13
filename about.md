@@ -4,17 +4,16 @@ title: About
 permalink: /about/
 ---
 
-Hello!  I am a Machine Learning Engineer currently working at Spotify.  I primarily build cloud-based NLP applications but I'm also interested in all types of ML, especially recommendation systems and time-series data. And all things programming/engineering! 
+Hello!  I am a Machine Learning Engineer currently working at The Browser Company.  I primarily build cloud-based and on-device ML applications, focusing on LLMs, NLP and search. 
 
-Contact me by email: [info@mattmckenna.io](info@mattmckenna.io)
+Contact me at: [info@mattmckenna.io](info@mattmckenna.io)
 
 
 ## Current/Past Positions  (see [LinkedIn](https://www.linkedin.com/in/matt-mckenna-54759a20) for longer history)
 
 #### Staff Machine Learning Engineer - The Browser Company (20244 - current)
 
-
-fine-tuning, LoRA, function calling, retrieval & embeddings, semantic search, rerankers, and on-device inference.
+Fine-tuning, LoRA, function calling, retrieval & embeddings, semantic search, rerankers, and on-device inference.
 
 
 #### Senior Machine Learning Engineer (NLP and LLMs) - Spotify (2020 - 2024)
