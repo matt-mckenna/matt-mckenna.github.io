@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Archive
+title: Archived Posts
 permalink: /archive
 ---
 
-# Archived Posts
-
 {% for post in site.archive %}
-* [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
+* [{{ post.title }}]({{ post.url }})
 {% endfor %}
