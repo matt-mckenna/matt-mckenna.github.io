@@ -31,10 +31,60 @@ so we set $ ∆W = BA $ and the forward pass is
 
 $$ h = W_0x + ∆Wx = W_0x + BAx $$
 
-One consideration that's not usually covered when talking about LoRA is *where* you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? 
+$ W_0x $ is also scaled by $ \alpha / r $. The authors say "$\alpha$ is a constant in $r$" which means $\alpha$ does not change if you change the rank of $r$. Below you'll see that you can specify $\alpha$ and $r$ in code when you use LoRA. 
+
+## How to apply LoRA?
+
+One consideration that's not always covered when talking about LoRA is *where* you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? Since LoRA is used for fine-tuning, you're usually aiming to change the model behavior in some way (without destroying all the knowledge the model learned from pre-training). In that sense you want to taget matrics that change model behavior: the attention projections (Q, K, V, O). Many times practitioners apply LoRA to the attention weights first, then other weights if needed. 
 
 
-## When to look at LoRA vs. fine-tuning? 
+### LoRA in code
+
+The easiest way to apply LoRA to LLM is using PyTorch + Huggingface's transformers library. First we load a model:
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import LoraConfig, get_peft_model, TaskType
+
+model_name = "meta-llama/Llama-2-7b-hf"  # example
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=torch.float16,
+    device_map="auto",
+)
+```
+
+Then configure LoRA
+
+```python
+lora_config = LoraConfig(
+    task_type=TaskType.CAUSAL_LM,
+    r=8,                      # rank
+    lora_alpha=16,            # scaling
+    lora_dropout=0.05,
+    target_modules=["q_proj", "v_proj"],  # attention layers to target
+    bias="none",
+)
+```
+
+Now apply LoRA to your model!
+
+```python
+model = get_peft_model(model, lora_config)
+```
+
+if you print the trainable parameters, you'll see something like: 
+
+```python
+trainable params: 4.2M || all params: 6.7B || trainable%: 0.06%
+```
+
+so LoRA is only training 0.06% of the original parameters! That's huge and translates into massive compute/memory efficiency.
+
+## When to look at LoRA vs. standard fine-tuning? 
 
 Both LoRA (and more generally PEFT) are ways to fine-tune LLMs. When and why should we pick one over the other? First let’s understand the differences. 
 
