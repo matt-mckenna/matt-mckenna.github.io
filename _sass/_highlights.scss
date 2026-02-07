@@ -121,17 +121,20 @@ div.highlight code {
 }
 /* --- Improve low-contrast yellow tokens for light background --- */
 
+/* --- Higher-contrast strings & literals (more pop) --- */
+
 .highlight .s,
 .highlight .s1,
 .highlight .s2 {
-  color: #0a3069 !important;   /* GitHub blue for strings */
+  color: #0047ab !important;   /* strong cobalt blue */
+  font-weight: 500;
 }
 
 .highlight .mi,
 .highlight .mf {
-  color: #0550ae !important;   /* numbers */
+  color: #b42318 !important;   /* deep red for numbers */
 }
 
 .highlight .no {
-  color: #8250df !important;   /* constants / enums */
+  color: #6f42c1 !important;   /* saturated purple */
 }
