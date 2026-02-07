@@ -141,3 +141,17 @@ div.highlight code {
 .highlight {
   overflow: hidden;
 }
+/* --- Kill corner wedges: wrapper owns radius + bg; pre has no margin/bg --- */
+.highlight {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8fafc; /* must match your code block bg */
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.highlight pre {
+  margin: 0 !important;        /* this is often the culprit */
+  border: 0 !important;
+  border-radius: 0 !important;  /* wrapper handles rounding */
+  background: transparent !important;
+}
