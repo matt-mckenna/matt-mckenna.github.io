@@ -24,12 +24,15 @@ $$ W_0 + ∆W = W_0 + BA $$
 where 
 
 $ W_0 $ is the weight matrix of the original model and 
-cd
+
 $B \in \mathbb{R}^{d \times r}, \; A \in \mathbb{R}^{r \times k}$
 
 so we set $ ∆W = BA $ and the forward pass is 
 
 $$ h = W_0x + ∆Wx = W_0x + BAx $$
+
+One consideration that's not usually covered when talking about LoRA is *where* you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? 
+
 
 ## When to look at LoRA vs. fine-tuning? 
 
