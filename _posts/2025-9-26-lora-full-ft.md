@@ -84,6 +84,14 @@ trainable params: 4.2M || all params: 6.7B || trainable%: 0.06%
 
 so LoRA is only training 0.06% of the original parameters! That's huge and translates into massive compute/memory efficiency.
 
+One intresting note is about which parameters to train. The authors of the LoRA paper say: 
+
+> We limit our study to only adapting the attention weights for downstream
+> tasks and freeze the MLP modules (so they are not trained in downstream tasks) both for simplicity
+> and parameter-efficiency
+
+but later (about 4 years after the original LoRA paper came out!) John Schulman from Thinking Machines [wrote an amazing blog post](https://thinkingmachines.ai/blog/lora/) showing why you should actually target the MLP layers in addition to the attention layers.  
+
 ## When to look at LoRA vs. standard fine-tuning? 
 
 Both LoRA (and more generally PEFT) are ways to fine-tune LLMs. When and why should we pick one over the other? First let’s understand the differences. 
