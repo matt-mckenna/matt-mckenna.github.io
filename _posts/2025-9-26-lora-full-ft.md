@@ -12,14 +12,19 @@ LoRA (Low-Rank Adaptation) is a parameter efficient method to fine-tune LLMs for
 
 ## How does LoRA work?
 
-The key to LoRA comes from the fact that LLMs have a low "intrinsic rank", which basically means they still learn well in lower dimensions/# of parameters. The weight update becomes: 
+The key to LoRA comes from the fact that LLMs have a low "intrinsic rank", which means they still learn well in lower dimensions/# of parameters (more formally, they). This was demonstrated in the 2020 paper [Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning](https://arxiv.org/pdf/2012.13255):
+
+> by optimizing only 200 trainable parameters randomly projected back into the full space, we
+> can tune a RoBERTa model to achieve 90% of the full parameter performance levels
+
+With LoRA, the model weight update becomes: 
 
 $$ W_0 + ∆W = W_0 + BA $$
 
 where 
 
 $ W_0 $ is the weight matrix of the original model and 
-
+cd
 $B \in \mathbb{R}^{d \times r}, \; A \in \mathbb{R}^{r \times k}$
 
 so we set $ ∆W = BA $ and the forward pass is 
