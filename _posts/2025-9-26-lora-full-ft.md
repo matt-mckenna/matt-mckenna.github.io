@@ -1,6 +1,6 @@
 ---
 layout: post
-title: LoRA vs. Full Parameter Fine-Tuning
+title: LoRA
 ---
 
 ## What is LoRA?
