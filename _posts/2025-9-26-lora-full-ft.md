@@ -92,6 +92,10 @@ One intresting note is about which parameters to train. The authors of the LoRA 
 
 but later (about 4 years after the original LoRA paper came out!) John Schulman from Thinking Machines [wrote an amazing blog post](https://thinkingmachines.ai/blog/lora/) showing why you should actually target the MLP layers in addition to the attention layers.  
 
+> Even in small data settings, LoRA performs better when applied to all weight matrices, 
+> especially MLP and MoE layers. Attention-only LoRA underperforms even when we match the number 
+> of trainable parameters by using higher rank for attention-only LoRA.
+
 ## When to look at LoRA vs. standard fine-tuning? 
 
 Both LoRA (and more generally PEFT) are ways to fine-tune LLMs. When and why should we pick one over the other? First let’s understand the differences. 
