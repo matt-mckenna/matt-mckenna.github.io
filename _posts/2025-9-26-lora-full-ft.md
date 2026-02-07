@@ -25,7 +25,7 @@ where
 
 $ W_0 $ is the weight matrix of the original model and 
 
-$B \in \mathbb{R}^{d \times r}, \; A \in \mathbb{R}^{r \times k}$
+$$ B \in \mathbb{R}^{d \times r}, \; A \in \mathbb{R}^{r \times k} $$
 
 so we set $ ∆W = BA $ and the forward pass is 
 
