@@ -119,3 +119,19 @@ div.highlight code {
 .highlight .no {
   color: #24292f !important;
 }
+/* --- Improve low-contrast yellow tokens for light background --- */
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
+  color: #0a3069 !important;   /* GitHub blue for strings */
+}
+
+.highlight .mi,
+.highlight .mf {
+  color: #0550ae !important;   /* numbers */
+}
+
+.highlight .no {
+  color: #8250df !important;   /* constants / enums */
+}
