@@ -99,3 +99,23 @@ div.highlight code {
   background: transparent !important;
   padding: 0 !important;
 }
+
+/* --- Fix invisible/jumbled Rouge tokens after switching to light bg --- */
+
+.highlight, .highlight pre, .highlight code {
+  color: #24292f !important;            /* default text color */
+  text-shadow: none !important;
+}
+
+/* Rouge uses .w for "whitespace"/plain text; if it's light, text vanishes */
+.highlight .w,
+.highlight .n,
+.highlight .p,
+.highlight .o,
+.highlight .nb,
+.highlight .nf,
+.highlight .nn,
+.highlight .nc,
+.highlight .no {
+  color: #24292f !important;
+}
