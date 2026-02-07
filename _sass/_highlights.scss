@@ -80,3 +80,22 @@
 .gist pre {
   color: #515151;
 }
+/* ---- Custom overrides for code blocks (LoRA blog) ---- */
+
+.highlight pre,
+div.highlight pre {
+  background: #f6f8fa !important;   /* GitHub light */
+  color: #24292f !important;
+  padding: 1.25rem 1.5rem !important;
+  border-radius: 8px !important;
+  line-height: 1.6 !important;
+  font-size: 0.9rem !important;
+  overflow-x: auto !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+.highlight code,
+div.highlight code {
+  background: transparent !important;
+  padding: 0 !important;
+}
