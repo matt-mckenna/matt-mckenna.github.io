@@ -5,23 +5,32 @@ title: LoRA
 
 ## What is LoRA?
 
-LoRA (Low-Rank Adaptation) is a parameter efficient method to fine-tune LLMs for particular tasks or domains. The main benefit of LoRA is to reduce the amount compute/memory needed by only training on a small portion of the model parameters. There are other major benefits of LoRA too! 
+LoRA (Low-Rank Adaptation) is a parameter efficient method to fine-tune LLMs for particular tasks or domains. The main benefit of LoRA is to reduce the amount compute/memory needed by only training on a small portion (usually less than 1%!) of the original model parameters. There are other major benefits of LoRA too: 
 
  - Using LoRA doesn't add any inference latency over a fine-tuned model 
- - LoRA weights can be swapped for a shared base model. So you can have one copy of a base model (BERT, Qwen, etc.) in memory, and swap LoRA adaptors when you need to use the model for different tasks. This can massively reduce storage overhead.  
+ - LoRA weights can be swapped for a shared base model. You can have one copy of a base model (BERT, Qwen, etc.) in memory, and swap LoRA adaptors when you need to use the model for different tasks. This can massively reduce storage overhead and efftively lets you have one model that can perform multiple tasks. 
+
+In short, LoRA achieves task-specific adaptation by learning low-rank updates on top of a frozen base model, delivering fine-tuning quality with dramatically lower training, memory, and deployment costs.
 
 ## How does LoRA work?
 
-The key to LoRA comes from the fact that LLMs have a low "intrinsic rank", which means they still learn well in lower dimensions/# of parameters (more formally, they). This was demonstrated in the 2020 paper [Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning](https://arxiv.org/pdf/2012.13255):
+The key to LoRA comes from the fact that LLMs have a low "intrinsic rank", which means they still learn well in lower dimensions/# of parameters. This was demonstrated in the 2020 paper [Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning](https://arxiv.org/pdf/2012.13255):
 
 > by optimizing only 200 trainable parameters randomly projected back into the full space, we
 > can tune a RoBERTa model to achieve 90% of the full parameter performance levels
 
-With LoRA, the model weight update becomes: 
+The key insight with LoRA is that you don't need to re-train all the parameters in the model in order to see good performance on new tasks. With LoRA, we freeze (i.e. force to stay constant) most of the model weights and only update a certain subset of new weights. That's why LoRA is much more efficient to train. 
 
-$$ W_0 + ∆W = W_0 + BA $$
+In full fine-tuning, the weight update is: 
 
-where 
+$$ W = W_0 + ∆W $$
+
+In LoRA, the model weight update becomes: 
+
+$$ W = W_0 + BA $$
+The trick is the dimensionality of ∆W is much smaller than BA.
+
+In this setup,
 
 $ W_0 $ is the weight matrix of the original model and 
 
@@ -33,10 +42,10 @@ $$ h = W_0x + ∆Wx = W_0x + BAx $$
 
 $ W_0x $ is also scaled by $ \alpha / r $. The authors say "$\alpha$ is a constant in $r$" which means $\alpha$ does not change if you change the rank of $r$. Below you'll see that you can specify $\alpha$ and $r$ in code when you use LoRA. 
 
-## How to apply LoRA?
 
-One consideration that's not always covered when talking about LoRA is *where* you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? Since LoRA is used for fine-tuning, you're usually aiming to change the model behavior in some way (without destroying all the knowledge the model learned from pre-training). In that sense you want to taget matrics that change model behavior: the attention projections (Q, K, V, O). Many times practitioners apply LoRA to the attention weights first, then other weights if needed. 
+## How to apply LoRA
 
+One consideration that's not always covered when talking about LoRA is *where* in the model (i.e. to what weight matrices) you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? Since LoRA is used for fine-tuning, you're usually aiming to change the model behavior in some way (without destroying all the knowledge the model learned from pre-training). In that sense you want to taget matrics that change model behavior: the attention projections (Q, K, V, O). A common approach is to apply LoRA to the attention weights first, then other weights if needed. 
 
 ### LoRA in code
 
@@ -90,42 +99,27 @@ One intresting note is about which parameters to train. The authors of the LoRA 
 > tasks and freeze the MLP modules (so they are not trained in downstream tasks) both for simplicity
 > and parameter-efficiency
 
-but later (about 4 years after the original LoRA paper came out!) John Schulman from Thinking Machines [wrote an amazing blog post](https://thinkingmachines.ai/blog/lora/) showing why you should actually target the MLP layers in addition to the attention layers.  
+but later (about 4 years after the original LoRA paper came out!) John Schulman from Thinking Machines [wrote an amazing blog post](https://thinkingmachines.ai/blog/lora/) showing why you should target the MLP layers in addition to the attention layers.  
 
 > Even in small data settings, LoRA performs better when applied to all weight matrices, 
 > especially MLP and MoE layers. Attention-only LoRA underperforms even when we match the number 
 > of trainable parameters by using higher rank for attention-only LoRA.
 
-## When to look at LoRA vs. standard fine-tuning? 
+## LoRA vs. full fine-tuning
 
-Both LoRA (and more generally PEFT) are ways to fine-tune LLMs. When and why should we pick one over the other? First let’s understand the differences. 
+Both LoRA and full fine-tuning are ways to fine-tune LLMs. When and why should we pick one over the other? Above we saw that LoRA is much more efficient than full fine-tuning, so why not always use LoRA? Like most things in life, it's a tradeoff. Let's look at the pros and cons of both: 
 
-### Full fine-tuning
-- Update all parameters of the model.
-- Requires lots of GPU memory, long training runs, and careful optimization.
-- Produces a single “frozen” model per task.
-
-
-### LoRA (Low-Rank Adapters)
-- Freeze the base model; inject trainable low-rank matrices into attention layers.
-- Train far fewer parameters (often <1%).
-- Can load/swap adapters on the fly.
-- Nearly identical inference cost to the base model.
-- These differences matter because they affect:
-- Cost (GPU hours, memory)
-- Speed (training + inference latency)
-- Flexibility (can you swap adapters per task?)
-- Performance (final accuracy or quality)
-
-
-Full parameter fine tuning is good for:
+Full fine-tuning is good for:
 - tasks requiring high accuracy and task-specific understanding (legal or financial document analysis)
-- specialized vocabulary or complex subject matter, like medicine, law, or finance
+- specialized vocabulary or complex subject matter, e.g. medicine, law, finance
 - comprehensive adaptation to the new data
-- You want the model to forget pretraining quirks (e.g., toxicity, bias)
+- You want the model to forget pretraining quirks (toxicity, bias)
 - You plan to ship a single high-quality model, not many variants of that model (adapters)
 
 LoRA is good for
-- When you have lower resources (GPUs)
+- If you have lower resources (GPUs)
 - You’re adapting a foundation model to a narrow task (e.g., sentiment classification, SQL translation).
 - The task is somewhat generic and an existing LLM can perform well
+- You have multiple taks you want to perform with the same base model
+
+That said, LoRA is hugely popular  
