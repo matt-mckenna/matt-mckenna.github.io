@@ -157,8 +157,8 @@ To make this concrete, I ran both methods on a real medical QA task and the MMLU
       <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.589</td>
     </tr>
     <tr>
-      <td style="border: 1px solid #ddd; padding: 8px;"><strong>Full FT (10 epochs)</strong></td>
-      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><strong>0.58</strong></td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Full FT (10 epochs)</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.58</td>
       <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.583</td>
     </tr>
   </tbody>
