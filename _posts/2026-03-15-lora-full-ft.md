@@ -140,10 +140,7 @@ To make this concrete, I ran both methods on a real medical QA task. The setup:
 | Method | PubMedQA | MMLU |
 |---|---|---|
 | Base (no fine-tuning) | 0.40 | 0.605 |
-| LoRA (lr=2e-4, 1 epoch) | 0.32 | 0.547 |
-| LoRA (lr=5e-5, 1 epoch) | 0.35 | 0.601 |
 | LoRA (lr=5e-5, 10 epochs) | 0.45 | 0.589 |
-| Full FT (1 epoch) | 0.42 | 0.591 |
 | Full FT (10 epochs) | **0.58** | 0.583 |
 
 ### What this shows
@@ -151,8 +148,6 @@ To make this concrete, I ran both methods on a real medical QA task. The setup:
 **Full fine-tuning wins on domain adaptation.** At 10 epochs, full FT reaches 0.58 on PubMedQA vs 0.45 for LoRA — a meaningful gap on a hard task with limited training data.
 
 **LoRA preserves general knowledge better.** MMLU drops only 0.016 points with LoRA vs 0.022 with full FT. Small difference here, but it grows with more aggressive training.
-
-**Epochs matter a lot.** Both methods were severely undertrained at 1 epoch (~28 gradient updates on 900 examples). Bumping to 10 epochs with early stopping made a huge difference for both.
 
 **LoRA learning rate is sensitive.** At lr=2e-4 LoRA actually hurt PubMedQA performance below baseline. Dropping to 5e-5 fixed it. Full FT was more forgiving on lr.
 
