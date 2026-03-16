@@ -2,6 +2,7 @@
 layout: post
 title: LoRA vs Full Fine-Tuning
 date: 2026-03-15
+excerpt: "LoRA is a parameter-efficient fine-tuning method that trains a fraction of model parameters. In this post I compare LoRA vs full fine-tuning, dicuss the differences, and run an experiment on a medical QA task to compare LoRA and full fine-tuning."
 ---
 
 ## What is LoRA?
