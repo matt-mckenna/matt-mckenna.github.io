@@ -118,12 +118,12 @@ Full fine-tuning is good for:
 - You plan to ship a single high-quality model, not many variants of that model (adapters)
 
 LoRA is good for
-- If you have lower resources (GPUs)
+- Lower resources (GPUs)
 - You’re adapting a foundation model to a narrow task (e.g., sentiment classification, SQL translation).
 - The task is somewhat generic and an existing LLM can perform well
 - You have multiple taks you want to perform with the same base model
 
-That said, LoRA is still popular, and for good reason — in practice the tradeoffs aren't always obvious. 
+LoRA is still popular for good reason — but in practice the tradeoffs aren't always obvious. Let's look at an experiment.
 
 ## Experiment: LoRA vs Full Fine-Tuning on PubMedQA
 
@@ -137,11 +137,32 @@ To make this concrete, I ran both methods on a real medical QA task and the MMLU
 
 ### Results
 
-| Method | PubMedQA | MMLU |
-|---|---|---|
-| Base (no fine-tuning) | 0.40 | 0.605 |
-| LoRA (10 epochs) | 0.45 | 0.589 |
-| Full FT (10 epochs) | **0.58** | 0.583 |
+<table style="border-collapse: collapse; width: 100%; margin: 1em 0;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Method</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">PubMedQA</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">MMLU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">Base (no fine-tuning)</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.40</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.605</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">LoRA (10 epochs)</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.45</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.589</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;"><strong>Full FT (10 epochs)</strong></td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><strong>0.58</strong></td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">0.583</td>
+    </tr>
+  </tbody>
+</table>
 
 ### What this shows
 
