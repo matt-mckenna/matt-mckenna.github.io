@@ -1,6 +1,6 @@
 ---
 layout: post
-title: LoRA vs Full Fine-Tuning - When Does Each Win?
+title: LoRA vs Full Fine-Tuning
 date: 2026-03-15
 ---
 
@@ -123,36 +123,35 @@ LoRA is good for
 - The task is somewhat generic and an existing LLM can perform well
 - You have multiple taks you want to perform with the same base model
 
-That said, LoRA is hugely popular and for good reason — in practice the tradeoffs are nuanced. Let's look at real numbers.
+That said, LoRA is still popular, and for good reason — in practice the tradeoffs aren't always obvious. 
 
 ## Experiment: LoRA vs Full Fine-Tuning on PubMedQA
 
-To make this concrete, I ran both methods on a real medical QA task. The setup:
+To make this concrete, I ran both methods on a real medical QA task and the MMLU benchmark. This is a small experient to show the directional difference of LoRA and full FT. I wanted to see how LoRA and full FT compare on domain-specific data (medical data). The PubMedQA dataset measures how well LoRA and full FT can adapt to a new domain, the MMLU benchmark measures how much the FT affects generanl knowledge. The setup:
 
 - **Model**: Qwen2.5-3B-Instruct
 - **Training data**: PubMedQA (`pqa_labeled`, ~900 training examples)
 - **Task**: 3-way classification — given a biomedical question and abstract, answer yes/no/maybe
 - **General knowledge benchmark**: MMLU (1000 random samples) to measure forgetting
-- **LoRA config**: rank=16, alpha=32, targeting all attention + MLP projections
+- **LoRA config**: rank=16, alpha=32, targeting all attention + MLP projections (see explanation above!)
 
 ### Results
 
 | Method | PubMedQA | MMLU |
 |---|---|---|
 | Base (no fine-tuning) | 0.40 | 0.605 |
-| LoRA (lr=5e-5, 10 epochs) | 0.45 | 0.589 |
+| LoRA (10 epochs) | 0.45 | 0.589 |
 | Full FT (10 epochs) | **0.58** | 0.583 |
 
 ### What this shows
 
-**Full fine-tuning wins on domain adaptation.** At 10 epochs, full FT reaches 0.58 on PubMedQA vs 0.45 for LoRA — a meaningful gap on a hard task with limited training data.
+**Full fine-tuning wins on domain adaptation.** Full FT reaches 0.58 on PubMedQA vs 0.45 for LoRA — a meaningful gap on a hard task with limited training data. Shows evidence that full FT can learn domain-specific data better. 
 
-**LoRA preserves general knowledge better.** MMLU drops only 0.016 points with LoRA vs 0.022 with full FT. Small difference here, but it grows with more aggressive training.
+**LoRA preserves general knowledge better.** MMLU drops only 0.016 points with LoRA vs 0.022 with full FT. Small difference here, but it grows with more aggressive training. Shows evidence that full FT has more forgetting (although very slight difference here). 
 
-**LoRA learning rate is sensitive.** At lr=2e-4 LoRA actually hurt PubMedQA performance below baseline. Dropping to 5e-5 fixed it. Full FT was more forgiving on lr.
 
-### The takeaway
+### Wrap-up
 
-If you're building a domain-specific model and don't need to preserve general capability — use full FT. If you need the model to remain a generalist while adapting to a new domain — use LoRA with a conservative learning rate and enough epochs.
+LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data you're tuning on is different that what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
 
-The code for this experiment is available [on GitHub](https://github.com/matt-mckenna/blog-examples/tree/main/lora-vs-fullft).
+Code for this experiment is available [on GitHub](https://github.com/matt-mckenna/blog-examples/tree/main/lora-vs-fullft).
