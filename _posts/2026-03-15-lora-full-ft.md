@@ -123,7 +123,7 @@ LoRA is good for
 - The task is somewhat generic and an existing LLM can perform well
 - You have multiple taks you want to perform with the same base model
 
-LoRA is still popular for good reason — but in practice the tradeoffs aren't always obvious. Let's look at an experiment.
+LoRA is still popular for good reason. But in practice the tradeoffs aren't always obvious. Let's look at an experiment.
 
 ## Experiment: LoRA vs Full Fine-Tuning on PubMedQA
 
@@ -166,13 +166,13 @@ To make this concrete, I ran both methods on a real medical QA task and the MMLU
 
 ### What this shows
 
-**Full fine-tuning wins on domain adaptation.** Full FT reaches 0.58 on PubMedQA vs 0.45 for LoRA — a meaningful gap on a hard task with limited training data. Shows evidence that full FT can learn domain-specific data better. 
+**Full fine-tuning wins on domain adaptation.** Full FT reaches 0.58 on PubMedQA vs 0.45 for LoRA; a meaningful gap on a hard task with limited training data. Shows evidence that full FT can learn domain-specific data better. 
 
 **LoRA preserves general knowledge better.** MMLU drops only 0.016 points with LoRA vs 0.022 with full FT. Small difference here, but it grows with more aggressive training. Shows evidence that full FT has more forgetting (although very slight difference here). 
 
 
 ### Wrap-up
 
-LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data you're tuning on is different that what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
+LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data is different that what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
 
 Code for this experiment is available [on GitHub](https://github.com/matt-mckenna/blog-examples/tree/main/lora-vs-fullft).
