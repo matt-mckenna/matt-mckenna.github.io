@@ -10,7 +10,7 @@ excerpt: "LoRA is a parameter-efficient fine-tuning method that trains a fractio
 LoRA (Low-Rank Adaptation) is a parameter efficient method to fine-tune LLMs for particular tasks or domains. The main benefit of LoRA is to reduce the amount compute/memory needed by only training on a small portion (usually less than 1%!) of the original model parameters. There are other major benefits of LoRA too: 
 
  - Using LoRA doesn't add any inference latency over a fine-tuned model 
- - LoRA weights can be swapped for a shared base model. You can have one copy of a base model (BERT, Qwen, etc.) in memory, and swap LoRA adaptors when you need to use the model for different tasks. This can massively reduce storage overhead and efftively lets you have one model that can perform multiple tasks. 
+ - LoRA weights can be swapped for a shared base model. You can have one copy of a base model (BERT, Qwen, etc.) in memory, and swap LoRA adaptors when you need to use the model for different tasks. This can massively reduce storage overhead and effectively lets you have one model that can perform multiple tasks. 
 
 In short, LoRA achieves task-specific adaptation by learning low-rank updates on top of a frozen base model, delivering fine-tuning quality with dramatically lower training, memory, and deployment costs.
 
@@ -47,7 +47,7 @@ $ W_0x $ is also scaled by $ \alpha / r $. The authors say "$\alpha$ is a consta
 
 ## How to apply LoRA
 
-One consideration that's not always covered when talking about LoRA is *where* in the model (i.e. to what weight matrices) you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? Since LoRA is used for fine-tuning, you're usually aiming to change the model behavior in some way (without destroying all the knowledge the model learned from pre-training). In that sense you want to taget matrics that change model behavior: the attention projections (Q, K, V, O). A common approach is to apply LoRA to the attention weights first, then other weights if needed. 
+One consideration that's not always covered when talking about LoRA is *where* in the model (i.e. to what weight matrices) you should apply LoRA. In transformer models you have many different weight matrices - which ones should you apply LoRA to and why? Since LoRA is used for fine-tuning, you're usually aiming to change the model behavior in some way (without destroying all the knowledge the model learned from pre-training). In that sense you want to target matrices that change model behavior: the attention projections (Q, K, V, O). A common approach is to apply LoRA to the attention weights first, then other weights if needed. 
 
 ### LoRA in code
 
@@ -95,7 +95,7 @@ trainable params: 4.2M || all params: 6.7B || trainable%: 0.06%
 
 so LoRA is only training 0.06% of the original parameters! That's huge and translates into massive compute/memory efficiency.
 
-One intresting note is about which parameters to train. The authors of the LoRA paper say: 
+One interesting note is about which parameters to train. The authors of the LoRA paper say: 
 
 > We limit our study to only adapting the attention weights for downstream
 > tasks and freeze the MLP modules (so they are not trained in downstream tasks) both for simplicity
@@ -122,13 +122,13 @@ LoRA is good for
 - Lower resources (GPUs)
 - You’re adapting a foundation model to a narrow task (e.g., sentiment classification, SQL translation).
 - The task is somewhat generic and an existing LLM can perform well
-- You have multiple taks you want to perform with the same base model
+- You have multiple tasks you want to perform with the same base model
 
 LoRA is still popular for good reason. But in practice the tradeoffs aren't always obvious. Let's look at an experiment.
 
 ## Experiment: LoRA vs Full Fine-Tuning on PubMedQA
 
-To make this concrete, I ran both methods on a real medical QA task and the MMLU benchmark. This is a small experient to show the directional difference of LoRA and full FT. I wanted to see how LoRA and full FT compare on domain-specific data (medical data). The PubMedQA dataset measures how well LoRA and full FT can adapt to a new domain, the MMLU benchmark measures how much the FT affects generanl knowledge. The setup:
+To make this concrete, I ran both methods on a real medical QA task and the MMLU benchmark. This is a small experiment to show the directional difference of LoRA and full FT. I wanted to see how LoRA and full FT compare on domain-specific data (medical data). The PubMedQA dataset measures how well LoRA and full FT can adapt to a new domain, the MMLU benchmark measures how much the FT affects general knowledge. The setup:
 
 - **Model**: Qwen2.5-3B-Instruct
 - **Training data**: PubMedQA (`pqa_labeled`, ~900 training examples)
@@ -174,6 +174,6 @@ To make this concrete, I ran both methods on a real medical QA task and the MMLU
 
 ### Wrap-up
 
-LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data is different that what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
+LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data is different than what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
 
 Code for this experiment is available [on GitHub](https://github.com/matt-mckenna/blog-examples/tree/main/lora-vs-fullft).
