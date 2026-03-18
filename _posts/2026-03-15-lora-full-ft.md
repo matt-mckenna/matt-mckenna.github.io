@@ -31,7 +31,7 @@ In LoRA, the model weight update becomes:
 
 $$ W = W_0 + BA $$
 
-The trick is that that ∆W = BA, and r is much smaller than both d and k (typically r = 4, 8, or 16 vs. d/k in the hundreds or thousands). This means BA has far fewer parameters than ΔW would. Instead of d×k parameters, you only need d×r + r×k. That's where the efficiency comes from.
+The trick is that that $ ∆W = BA $, and r is much smaller than both d and k (typically r = 4, 8, or 16 vs. d/k in the hundreds or thousands). This means BA has far fewer parameters than ΔW would. Instead of d×k parameters, you only need d×r + r×k. That's where the efficiency comes from.
 
 In this setup,
 
