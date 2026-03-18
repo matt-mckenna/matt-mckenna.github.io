@@ -31,7 +31,7 @@ In LoRA, the model weight update becomes:
 
 $$ W = W_0 + BA $$
 
-The trick is that r is much smaller than both d and k (typically r = 4, 8, or 16 vs. d/k in the hundreds or thousands). This means BA has far fewer parameters than ΔW would. Instead of d×k parameters, you only need d×r + r×k. That's where the efficiency comes from.
+The trick is that that ∆W = BA, and r is much smaller than both d and k (typically r = 4, 8, or 16 vs. d/k in the hundreds or thousands). This means BA has far fewer parameters than ΔW would. Instead of d×k parameters, you only need d×r + r×k. That's where the efficiency comes from.
 
 In this setup,
 
@@ -177,6 +177,6 @@ To make this concrete, I ran both methods on a real medical QA task and the MMLU
 
 LoRA is a useful way to efficiently fine-tune models. You can get comparable results with full FT, but LoRA has drawbacks too - mostly that it can underperform full FT in certain situations, like when the data is different than what the base models were trained on. But for most practical tasks, LoRA is a good choice that can get you far.
 
-In this experiment was saw the gap between full FT and LoRA on PubMedQA is likely amplified by the small dataset size (~900 examples) and high domain specificity of medical language. With limited data, full FT can overfit to the target domain, which hurts generalization but helps on in-domain tasks. LoRA's frozen base constrains how much it can shift toward the new domain, which is a feature in most settings but a limitation here. With more training data, or a less specialized domain, we'd expect the gap to narrow.
+In this experiment we saw the gap between full FT and LoRA on PubMedQA is likely amplified by the small dataset size (~900 examples) and high domain specificity of medical language. With limited data, full FT can overfit to the target domain, which hurts generalization but helps on in-domain tasks. LoRA's frozen base constrains how much it can shift toward the new domain, which is a feature in most settings but a limitation here. With more training data, or a less specialized domain, we'd expect the gap to narrow.
 
 Code for this experiment is available [on GitHub](https://github.com/matt-mckenna/blog-examples/tree/main/lora-vs-fullft).
